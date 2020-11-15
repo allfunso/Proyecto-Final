@@ -5,7 +5,7 @@ public class Retos {
 
     private int points = 0;
 
-    public void shootingChallenge() {
+    void shootingChallenge() {
         int force;
         System.out.println("Enter your force");
 
@@ -16,15 +16,15 @@ public class Retos {
             }
             if(force>50 && force<60){
                 System.out.println("you hit it! just above the center");
-                this.points += 5;
+                points += 5;
             }
             if(force==50){
                 System.out.println("You nailed it!");
-                this.points += 10;
+                points += 10;
             }
             if(force>=40 && force<50){
                 System.out.println("You hit it! just below the center");
-                this.points += 5;
+                points += 5;
             }
             if(force>=30 && force<40){
                System.out.println("Very low! you failed");
@@ -32,10 +32,10 @@ public class Retos {
             System.out.println("Try again");
         }
         System.out.println("You ran out of balls");
-        System.out.println("You scored " + this.points + " points");
+        System.out.println("You scored " + points + " points");
     }
 
-    public void defendingChallenge() {
+    void defendingChallenge() {
 
         int distance = (int) (Math.random()*10 + 5);
 
@@ -55,21 +55,21 @@ public class Retos {
                 }
             } else {
                 System.out.println("You have blocked the robot succesfully");
-                this.points += (10-2*i);
+                points += (10-2*i);
                 break;
             }
-            System.out.println("You have received " + this.points + " points");
+            System.out.println("You have received " + points + " points");
         }
     }
 
-    public void clawChallenge() {
+    void clawChallenge() {
         System.out.println("There is a metal pole hanging over the robot");
         System.out.println("The robot must extend its arm to grab it");
         System.out.println("How far would you like to extend its arm?");
         double extension = scan.nextDouble();
         if (extension>=1 && extension<=2) {
             System.out.println("You did it!");
-            this.points += 5;
+            points += 5;
             System.out.println("Now enter a negative number to pull it back");
             extension -= scan.nextDouble();
             if (extension > 0.5) {
@@ -78,12 +78,50 @@ public class Retos {
                 System.out.println("You pulled too hard! Now it's broken");
             } else {
                 System.out.println("Well done");
-                this.points += 5;
+                points += 5;
             }
         } else {
             System.out.println("The pole was 1.5 meters away");
             System.out.println("Maybe nex time");
         }
-        System.out.println("You scored " + this.points + " points");
+        System.out.println("You scored " + points + " points");
+    }
+    
+    void searchingChallenge() {
+        Robot llamar = new Robot();
+        int num;
+        int numOfBalls = 0;
+        Boolean grab;
+        System.out.println("Search the 5 Balls move it and the system will tell you if you need to go further or closer ");
+
+        int random=(int)(Math.random()*10);
+        num=scan.nextInt();
+
+        do{
+            llamar.search(num, random);
+            while(num!=random);
+            System.out.println("You find the ball, to grab it enter 'true' ");
+            grab = scan.nextBoolean();
+            if (grab) {
+                numOfBalls+=1;
+                System.out.println("Now return to your base");
+                int r=(int)(Math.random()*12);
+                System.out.println("move it and the system will tell you if you need to go further or closer");
+                num=scan.nextInt();
+                llamar.search(num, r);
+            }
+            else {
+                System.out.println("You must grab the ball");
+            }
+            System.out.println("You find the base, now drop the ball ");
+            if(!grab){
+                System.out.println("You must leave the ball");
+            }
+            else{
+                System.out.println("Now search for more balls");
+            }
+        }
+        while(numOfBalls!=5);
+        System.out.println("You did it");
     }
 }
