@@ -1,35 +1,44 @@
+/**
+ * Esta versión de la clase Retos no está terminada
+ * Se planea agregar otros 4 retos
+ * El reto de buscar pelotas tiene algunos errores en esta versión
+ * Se planea mover las herramientas de cada reto a la clase Robot
+ */
+
 import java.util.Scanner;
 
 public class Retos {
     Scanner scan = new Scanner(System.in);
 
-    private int points = 0;
+    int points = 0;
 
     void shootingChallenge() {
         int force;
         System.out.println("Enter your force");
 
-        for(int numOfBalls=4; numOfBalls>0; numOfBalls--){
+        for(int numOfBalls=4; numOfBalls>0; numOfBalls--) {
             force = scan.nextInt();
-            if(force>=60 && force<70){
+            if (force>=60) {
                 System.out.println("Too high! you failed");
             }
-            if(force>50 && force<60){
+            if (force>50 && force<60) {
                 System.out.println("you hit it! just above the center");
                 points += 5;
             }
-            if(force==50){
+            if (force==50) {
                 System.out.println("You nailed it!");
                 points += 10;
             }
-            if(force>=40 && force<50){
+            if (force>=40 && force<50) {
                 System.out.println("You hit it! just below the center");
                 points += 5;
             }
-            if(force>=30 && force<40){
+            if (force < 40) {
                System.out.println("Very low! you failed");
             }
-            System.out.println("Try again");
+            if (numOfBalls > 0) {
+                System.out.println("Try again");
+            }
         }
         System.out.println("You ran out of balls");
         System.out.println("You scored " + points + " points");
@@ -71,7 +80,7 @@ public class Retos {
             System.out.println("You did it!");
             points += 5;
             System.out.println("Now enter a negative number to pull it back");
-            extension -= scan.nextDouble();
+            extension += scan.nextDouble();
             if (extension > 0.5) {
                 System.out.println("You had to pull harder");
             } else if (extension < -0.5) {
@@ -82,7 +91,7 @@ public class Retos {
             }
         } else {
             System.out.println("The pole was 1.5 meters away");
-            System.out.println("Maybe nex time");
+            System.out.println("Maybe next time");
         }
         System.out.println("You scored " + points + " points");
     }
