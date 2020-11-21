@@ -43,6 +43,7 @@ public class App {
             }
         }
         //Se imprime el número de puntos acumulados
+        System.out.println("\n-------- The game has finished --------\n");
         System.out.println("You scored a total of " + retos.points + " points");
 
         //Se cierra el escáner de main, retos y robot
