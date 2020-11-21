@@ -205,7 +205,7 @@ public class Retos {
         int pointsAvailable = 20;
         System.out.println("You'll have to face a robot in a dirty battle");
         System.out.println("There are no rules. What are you gonna do?");
-        while (player.extension<2 && player.oilTemperature>90) {
+        while (player.extension<2 && player.oilTemperature<90) {
             System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT");
             tool = scan.next();
             player.chooseTool(tool);
