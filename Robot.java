@@ -30,7 +30,17 @@ public class Robot {
             case "search":
                 System.out.println("Your robot looks for a ball");
                 break;
-
+                
+            case "grab":
+                if (isHolding) {
+                    isHolding = false;
+                    System.out.println("You were holding something, so you release it");
+                } else {
+                    isHolding = true;
+                    System.out.println("You have picked something up");
+                }
+                break;
+                
             default:
                 System.out.println("That tool doesn't exist!");
                 break;
