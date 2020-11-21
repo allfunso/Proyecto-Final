@@ -1,48 +1,40 @@
-/**
- * Esta clase casi no se usa en esta versión
- * Se planea escribir las herramientas aquí en versiones posteriores
- * Actualmente las herramientas se encuentran directamente en cada reto
- */
+import java.util.Scanner;
 
 public class Robot {
-    private int numOfBalls = 0;
-    private boolean isHolding = false;
-    private int height = 0;
-    private int shootingAngle = 0;
-    private int relativeDistance = 20;
+    Scanner scan = new Scanner(System.in);
 
-    void move(int displacement) {
-        relativeDistance -= displacement;
-        System.out.println(relativeDistance);
-    }
-    void aim(int angle) {
-        shootingAngle = angle;
-    }
-    void shoot(int force) {
-        if (numOfBalls > 0) {
-            System.out.println("You are shooting with a force of " + force + " newtons and " + shootingAngle +"° angle");
-        } else {
-            System.out.println("You don't have enough balls!");
+    double extension = 0;
+    int position = 0;
+    int shootingForce = 0;
+
+    void chooseTool(String chosenTool) {
+        switch (chosenTool.toLowerCase()) {
+            case "shoot":
+                System.out.print("Enter a force (int): ");
+                shootingForce = scan.nextInt();
+                System.out.println("Your robot shoots a ball with " + shootingForce + "N of force");
+                break;
+
+            case "move":
+                System.out.print("How far would you like to move? (int): ");
+                position += scan.nextInt();
+                System.out.println("Your robot moves...");
+                break;
+            
+            case "extend":
+                System.out.print("How far would you like to extend its arm? (double): ");
+                extension += scan.nextDouble();
+                System.out.println("The robot activates solenoids and moves its arm...");
+                break;
+
+            case "search":
+                System.out.println("Your robot looks for a ball");
+                break;
+
+            default:
+                System.out.println("That tool doesn't exist!");
+                break;
         }
-    }
-    void pick() {
-        numOfBalls += 1;
-        System.out.println("You have " + numOfBalls + " balls");
-    }
-    void hold() {
-        isHolding = true;
-        System.out.println("Is holding: " + isHolding);
-    }
-    void release() {
-        isHolding = false;
-        System.out.println("Is holding: " + isHolding);
-    }
-    void elevate(int increment) {
-        height += increment;
-        System.out.println("New height: " + height);
-    }
-    void push() {
-        //Push or sth
     }
     int search (int n, int random){
 
