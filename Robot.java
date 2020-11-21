@@ -4,6 +4,7 @@ public class Robot {
     Scanner scan = new Scanner(System.in);
 
     double extension = 0;
+    double oilTemperature = 50;
     int position = 0;
     int shootingForce = 0;
     boolean isHolding = false;
@@ -40,6 +41,12 @@ public class Robot {
                     isHolding = true;
                     System.out.println("You have picked something up");
                 }
+                break;
+            
+            case "spit":
+                System.out.print("Enter a temperature in celsius: ");
+                oilTemperature = scan.nextDouble();
+                System.out.println("Your robot spits oil at " + oilTemperature + "° celsius");
                 break;
                 
             default:

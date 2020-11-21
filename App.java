@@ -36,6 +36,14 @@ public class App {
                 case "SEARCHING":
                     retos.searchingChallenge(robot);
                     break;
+                    
+                case "DISCS":
+                    retos.discsChallenge(robot);
+                    break;
+
+                case "BATTLE":
+                    retos.battleChallenge(robot);
+                    break;
 
                 default:
                     System.out.println("There's no such challenge");

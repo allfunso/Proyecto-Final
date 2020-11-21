@@ -154,4 +154,77 @@ public class Retos {
         while(numOfBalls!=5);
         System.out.println("You did it");
     }
+    
+    void discsChallenge(Robot player) {
+        int pointsAvailable = 18;
+        System.out.println("There's a disc in front of you");
+        System.out.println("You must take it to the enemy base using your tools");
+
+        player.isHolding = false;
+        while (!player.isHolding) {
+            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB");
+            tool = scan.next();
+            player.chooseTool(tool);
+            if (!tool.equalsIgnoreCase("grab")) {
+                System.out.println("You must pick it up first");
+                pointsAvailable--;
+            }
+        }
+        System.out.println("Now go to the other side");
+
+        player.position = 0;
+        int destination = randomGenerator.nextInt(15) + 5;
+        while (player.position != destination) {
+            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB");
+            tool = scan.next();
+            player.chooseTool(tool);
+            if (!tool.equalsIgnoreCase("move")) System.out.println("That's not the right tool!");
+            System.out.println("The disc is " + (player.position - destination) + " meters away");
+            pointsAvailable--;
+        }
+        System.out.println("You've reached it, now release it");
+        
+        player.isHolding = true;
+        while (player.isHolding) {
+            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB");
+            tool = scan.next();
+            player.chooseTool(tool);
+            if (!tool.equalsIgnoreCase("grab")) {
+                System.out.println("That's not the right tool!");
+                pointsAvailable--;
+            }
+        }
+        if (pointsAvailable > 0) {
+            points += pointsAvailable;
+        }
+        System.out.println("You have accumulated " + points + " points so far");
+    }
+
+    void battleChallenge(Robot player) {
+        player.extension = 0;
+        int pointsAvailable = 20;
+        System.out.println("You'll have to face a robot in a dirty battle");
+        System.out.println("There are no rules. What are you gonna do?");
+        while (player.extension<2 && player.oilTemperature>90) {
+            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT");
+            tool = scan.next();
+            player.chooseTool(tool);
+            if (tool.equalsIgnoreCase("spit")) {
+                if (player.extension < 2) {
+                    System.out.println("The oil is not reaching the robot. Try to extend your arm higher");
+                } else if (player.oilTemperature < 90) {
+                    System.out.println("HINT: The oil in your robot is too cold to make any damage");
+                }
+            } else if (!tool.equalsIgnoreCase("extend")) {
+                System.out.println("That tool won't work. Try something else");
+            }
+            pointsAvailable--;
+        }
+        System.out.println("The hot oil reaches the other robot and burns it");
+        if (pointsAvailable > 0) {
+            points += pointsAvailable;
+            System.out.println("You win!");
+        }
+        System.out.println("You currently have " + points + " points");
+    }
 }
