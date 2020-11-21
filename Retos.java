@@ -2,7 +2,6 @@
  * Esta versión de la clase Retos no está terminada
  * Se planea agregar otros 4 retos
  * El reto de buscar pelotas tiene algunos errores en esta versión
- * Se planea mover las herramientas de cada reto a la clase Robot
  */
 
 import java.util.Random;
@@ -119,8 +118,7 @@ public class Retos {
         System.out.println("Current score: " + points + " points");
     }
     
-    void searchingChallenge() {
-        Robot llamar = new Robot();
+    void searchingChallenge(Robot player) {
         int num;
         int numOfBalls = 0;
         Boolean grab;
@@ -130,7 +128,7 @@ public class Retos {
         num=scan.nextInt();
 
         do{
-            llamar.search(num, random);
+            player.search(num, random);
             while(num!=random);
             System.out.println("You find the ball, to grab it enter 'true' ");
             grab = scan.nextBoolean();
@@ -140,7 +138,7 @@ public class Retos {
                 int r=(int)(Math.random()*12);
                 System.out.println("move it and the system will tell you if you need to go further or closer");
                 num=scan.nextInt();
-                llamar.search(num, r);
+                player.search(num, r);
             }
             else {
                 System.out.println("You must grab the ball");
