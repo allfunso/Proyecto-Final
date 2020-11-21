@@ -124,7 +124,7 @@ public class Retos {
         Boolean grab;
         System.out.println("Search the 5 Balls move it and the system will tell you if you need to go further or closer ");
 
-        int random=(int)(Math.random()*10);
+        int random = randomGenerator.nextInt(10);
         num=scan.nextInt();
 
         do{
