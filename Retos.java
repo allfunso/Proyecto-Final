@@ -179,7 +179,7 @@ public class Retos {
             tool = scan.next();
             player.chooseTool(tool);
             if (!tool.equalsIgnoreCase("move")) System.out.println("That's not the right tool!");
-            System.out.println("The disc is " + (player.position - destination) + " meters away");
+            System.out.println("The destination is " + (destination - player.position) + " meters away");
             pointsAvailable--;
         }
         System.out.println("You've reached it, now release it");
