@@ -16,21 +16,21 @@ public class App {
          * Cada vez que se repita se preguntará cuál reto desea hacer
          * Si ingresa un reto que no existe, el caso 'default' se ejecutará
          */
-        for (int i=0; i<=numOfChallenges; i++) {
+        for (int i=1; i<=numOfChallenges; i++) {
             System.out.println("Choose your challenge by typing one of the following");
             System.out.println("SHOOTING, DEFENDING, CLAW, SEARCHING");
             String challengeSelected = mainScan.next();
             switch (challengeSelected.toUpperCase()) {
                 case "SHOOTING":
-                    retos.shootingChallenge();
+                    retos.shootingChallenge(robot);
                     break;
         
                 case "DEFENDING":
-                    retos.defendingChallenge();
+                    retos.defendingChallenge(robot);
                     break;
 
                 case "CLAW":
-                    retos.clawChallenge();
+                    retos.clawChallenge(robot);
                     break;
 
                 case "SEARCHING":
@@ -45,8 +45,9 @@ public class App {
         //Se imprime el número de puntos acumulados
         System.out.println("You scored a total of " + retos.points + " points");
 
-        //Se cierra el escáner de main y de retos
+        //Se cierra el escáner de main, retos y robot
         mainScan.close();
         retos.scan.close();
+        robot.scan.close();
     }
 }
