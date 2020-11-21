@@ -5,95 +5,118 @@
  * Se planea mover las herramientas de cada reto a la clase Robot
  */
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Retos {
     Scanner scan = new Scanner(System.in);
-
+    Random randomGenerator = new Random();
     int points = 0;
+    String tool;
 
-    void shootingChallenge() {
+    void shootingChallenge(Robot player) {
         int force;
-        System.out.println("Enter your force");
+        System.out.println("There's a target that you have to shoot");
+        System.out.println("Choose between one of your tools to complete the challenge:");
 
         for(int numOfBalls=4; numOfBalls>0; numOfBalls--) {
-            force = scan.nextInt();
-            if (force>=60) {
-                System.out.println("Too high! you failed");
+            System.out.println("SHOOT, MOVE, EXTEND, SEARCH");
+            tool = scan.next();
+            player.chooseTool(tool);
+
+            if (tool.equalsIgnoreCase("shoot")) {
+                force = player.shootingForce;
+                if (force>=60) {
+                    System.out.println("Too high! you failed");
+                }
+                else if (force>50) {
+                    System.out.println("you hit it! just above the center");
+                    points += 5;
+                }
+                else if (force==50) {
+                    System.out.println("You nailed it!");
+                    points += 10;
+                }
+                else if (force>=40) {
+                    System.out.println("You hit it! just below the center");
+                    points += 5;
+                }
+                else {
+                   System.out.println("Very low! you failed");
+                }
+            } else {
+                System.out.println("That's not the tool you should've used");
             }
-            if (force>50 && force<60) {
-                System.out.println("you hit it! just above the center");
-                points += 5;
-            }
-            if (force==50) {
-                System.out.println("You nailed it!");
-                points += 10;
-            }
-            if (force>=40 && force<50) {
-                System.out.println("You hit it! just below the center");
-                points += 5;
-            }
-            if (force < 40) {
-               System.out.println("Very low! you failed");
-            }
-            if (numOfBalls > 0) {
+            if (numOfBalls > 1) {
                 System.out.println("Try again");
             }
         }
         System.out.println("You ran out of balls");
-        System.out.println("You scored " + points + " points");
+        System.out.println("You've scored " + points + " points so far");
     }
 
-    void defendingChallenge() {
+    void defendingChallenge(Robot player) {
+        player.position = 0;
 
-        int distance = (int) (Math.random()*10 + 5);
+        int distance = randomGenerator.nextInt(10) + 5;
+        System.out.println("There is a robot a few meters away");
+        System.out.println("Choose between one of your tools to block it");
 
-        System.out.println("There is a robot " + distance + " meters away");
         for (int i=0; i<=3; i++) {
-            System.out.println("How far would you like to move?");
-            distance -= scan.nextInt();
-            if (distance > 1) {
-                System.out.println("You are still too far away");
-                if (i==3) {
-                    System.out.println("You ran out of attempts");
-                }
-            } else if (distance < 0) {
-                System.out.println("You went too far. Type a negative integer to go backwards");
-                if (i==3) {
-                    System.out.println("You ran out of attempts");
+            System.out.println("SHOOT, MOVE, EXTEND, SEARCH");
+            tool = scan.next();
+            player.chooseTool(tool);
+
+            if (tool.equalsIgnoreCase("move")) {
+                if (distance > player.position) {
+                    System.out.println("You are still too far away. Move forward");
+                } else if (distance < player.position) {
+                    System.out.println("You went too far. Type a negative integer to move backwards");
+                } else {
+                    System.out.println("You have blocked the robot succesfully");
+                    points += (10-2*i);
+                    break;
                 }
             } else {
-                System.out.println("You have blocked the robot succesfully");
-                points += (10-2*i);
-                break;
+                System.out.println("That's not the tool you should've used");
             }
-            System.out.println("You have received " + points + " points");
+            if (i==3) System.out.println("You ran out of attempts");
         }
+        System.out.println("You have scored " + points + " points so far");
     }
 
-    void clawChallenge() {
+    void clawChallenge(Robot player) {
+        player.extension = 0;
+
         System.out.println("There is a metal pole hanging over the robot");
         System.out.println("The robot must extend its arm to grab it");
-        System.out.println("How far would you like to extend its arm?");
-        double extension = scan.nextDouble();
-        if (extension>=1 && extension<=2) {
+        System.out.println("Choose a tool to do so");
+
+        do {
+        System.out.println("SHOOT, MOVE, EXTEND, SEARCH");
+        tool = scan.next();
+        player.chooseTool(tool);
+        if (!tool.equalsIgnoreCase("extend")) System.out.println("That's not the right tool!");
+        } while (!tool.equalsIgnoreCase("extend"));
+
+        if (player.extension>=1 && player.extension<=2) {
             System.out.println("You did it!");
             points += 5;
-            System.out.println("Now enter a negative number to pull it back");
-            extension += scan.nextDouble();
-            if (extension > 0.5) {
-                System.out.println("You had to pull harder");
-            } else if (extension < -0.5) {
-                System.out.println("You pulled too hard! Now it's broken");
-            } else {
-                System.out.println("Well done");
-                points += 5;
-            }
         } else {
             System.out.println("The pole was 1.5 meters away");
-            System.out.println("Maybe next time");
         }
-        System.out.println("You scored " + points + " points");
+
+        System.out.println("Now enter a negative number to pull it back");
+        player.chooseTool(tool);
+        if (player.extension > 0.5) {
+            System.out.println("You had to pull harder");
+        } else if (player.extension < -0.5) {
+            System.out.println("You pulled too hard! Now it's broken");
+        } else {
+            System.out.println("Well done");
+            points += 5;
+        }
+        System.out.println("Current score: " + points + " points");
     }
     
     void searchingChallenge() {
