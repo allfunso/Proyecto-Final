@@ -18,7 +18,7 @@ public class App {
          */
         for (int i=1; i<=numOfChallenges; i++) {
             System.out.println("Choose your challenge by typing one of the following");
-            System.out.println("SHOOTING, DEFENDING, CLAW, SEARCHING");
+            System.out.println("SHOOTING, DEFENDING, CLAW, SEARCHING, DISCS, BATTLE");
             String challengeSelected = mainScan.next();
             switch (challengeSelected.toUpperCase()) {
                 case "SHOOTING":
