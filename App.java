@@ -34,7 +34,7 @@ public class App {
                     break;
 
                 case "SEARCHING":
-                    retos.searchingChallenge();
+                    retos.searchingChallenge(robot);
                     break;
 
                 default:
