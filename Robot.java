@@ -6,6 +6,7 @@ public class Robot {
     double extension = 0;
     int position = 0;
     int shootingForce = 0;
+    boolean isHolding = false;
 
     void chooseTool(String chosenTool) {
         switch (chosenTool.toLowerCase()) {
