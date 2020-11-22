@@ -18,7 +18,7 @@ public class App {
          */
         for (int i=1; i<=numOfChallenges; i++) {
             System.out.println("Choose your challenge by typing one of the following");
-            System.out.println("SHOOTING, DEFENDING, CLAW, SEARCHING, DISCS, BATTLE");
+            System.out.println("SHOOTING, DEFENDING, CLAW, SEARCHING, DISCS, BATTLE, JETPACK, SKYSEARCHING, ENEMIES");
             String challengeSelected = mainScan.next();
             switch (challengeSelected.toUpperCase()) {
                 case "SHOOTING":
@@ -45,6 +45,18 @@ public class App {
                     retos.battleChallenge(robot);
                     break;
 
+                case "JETPACK":
+                    retos.jetpackChallenge(robot);
+                    break;
+
+                case "SKYSEARCHING":
+                    retos.skysearchingChallenge(robot);
+                    break;
+
+                case "ENEMIES":
+                    retos.killenemiesChallenge(robot);
+                    break;
+                    
                 default:
                     System.out.println("There's no such challenge");
                     break;
