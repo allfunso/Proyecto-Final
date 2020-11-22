@@ -19,7 +19,7 @@ public class Retos {
         System.out.println("Choose between one of your tools to complete the challenge:");
 
         for(int numOfBalls=4; numOfBalls>0; numOfBalls--) {
-            System.out.println("SHOOT, MOVE, EXTEND, SEARCH");
+            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT, FLY");
             tool = scan.next();
             player.chooseTool(tool);
 
@@ -29,7 +29,7 @@ public class Retos {
                     System.out.println("Too high! you failed");
                 }
                 else if (force>50) {
-                    System.out.println("you hit it! just above the center");
+                    System.out.println("You hit it! just above the center");
                     points += 5;
                 }
                 else if (force==50) {
@@ -62,7 +62,7 @@ public class Retos {
         System.out.println("Choose between one of your tools to block it");
 
         for (int i=0; i<=3; i++) {
-            System.out.println("SHOOT, MOVE, EXTEND, SEARCH");
+            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT, FLY");
             tool = scan.next();
             player.chooseTool(tool);
 
@@ -92,7 +92,7 @@ public class Retos {
         System.out.println("Choose a tool to do so");
 
         do {
-        System.out.println("SHOOT, MOVE, EXTEND, SEARCH");
+        System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT, FLY");
         tool = scan.next();
         player.chooseTool(tool);
         if (!tool.equalsIgnoreCase("extend")) System.out.println("That's not the right tool!");
@@ -102,7 +102,7 @@ public class Retos {
             System.out.println("You did it!");
             points += 5;
         } else {
-            System.out.println("The pole was 1.5 meters away");
+            System.out.println("Wrong! The pole was 1.5 meters away");
         }
 
         System.out.println("Now enter a negative number to pull it back");
@@ -125,17 +125,18 @@ public class Retos {
         System.out.println("Search the 5 Balls move it and the system will tell you if you need to go further or closer ");
 
         int random = randomGenerator.nextInt(10);
-        num=scan.nextInt();
 
         do{
-            player.search(num, random);
-            while(num!=random);
+            do {
+                num = scan.nextInt();
+                player.search(num, random);
+            } while(num!=random);
             System.out.println("You find the ball, to grab it enter 'true' ");
             grab = scan.nextBoolean();
             if (grab) {
                 numOfBalls+=1;
                 System.out.println("Now return to your base");
-                int r=(int)(Math.random()*12);
+                int r = randomGenerator.nextInt(12);
                 System.out.println("move it and the system will tell you if you need to go further or closer");
                 num=scan.nextInt();
                 player.search(num, r);
@@ -162,7 +163,7 @@ public class Retos {
 
         player.isHolding = false;
         while (!player.isHolding) {
-            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB");
+            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT, FLY");
             tool = scan.next();
             player.chooseTool(tool);
             if (!tool.equalsIgnoreCase("grab")) {
@@ -205,7 +206,7 @@ public class Retos {
         int pointsAvailable = 20;
         System.out.println("You'll have to face a robot in a dirty battle");
         System.out.println("There are no rules. What are you gonna do?");
-        while (player.extension<2 && player.oilTemperature<90) {
+        while (player.extension<2 || player.oilTemperature<90) {
             System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT");
             tool = scan.next();
             player.chooseTool(tool);
@@ -227,7 +228,8 @@ public class Retos {
         }
         System.out.println("You currently have " + points + " points");
     }
-     void jetpackChallenge(Robot player){
+    
+    void jetpackChallenge(Robot player){
         player.extension = 0;
         int forceg;
         int distance=45;
@@ -252,16 +254,18 @@ public class Retos {
         Boolean grab;
         System.out.println("Search the 5 Balls move it and the system will tell you if you need to go higher or lower ");
         System.out.println("Enter your aceleration of the jetpack");
-        forceg=scan.nextInt();
+
         do{
-            player.search(forceg, distance);
-            while(forceg!=distance);
+            do {
+                forceg=scan.nextInt();
+                player.search(forceg, distance);
+            } while(forceg!=distance);
             System.out.println("You find the ball, to grab it enter 'true' ");
             grab = scan.nextBoolean();
             if (grab) {
                 numOfBalls+=1;
                 System.out.println("Now return to your base");
-                int r=(int)(Math.random()*12);
+                int r = randomGenerator.nextInt(12);
                 System.out.println("move it and the system will tell you if you need to go further or closer");
                 forceg=scan.nextInt();
                 player.search(forceg, r);
@@ -282,29 +286,27 @@ public class Retos {
     }
     
     void killenemiesChallenge(Robot player){
-        int enemylife=30;
+        int enemylife = 30;
         int positionenemies;
-        int mylife=30;
+        int mylife = 30;
         int aim;
         System.out.println("Shoot to your enemies, otherwise they will shoot you");
         System.out.println("Search your enemies");
-        aim=scan.nextInt();
-        positionenemies=(int)(Math.random()*5);
+        positionenemies = randomGenerator.nextInt(5);
         do{
+            aim=scan.nextInt();
             player.aim(aim, positionenemies);
             if(aim!=positionenemies){
                 mylife-=10;
-                System.out.println("You mist");
+                System.out.println("You missed");
             }
             if(aim==positionenemies){
-                mylife+=5;
-                enemylife-=10;
+                mylife += 5;
+                enemylife -= 10;
                 System.out.println("You shot him");
-                positionenemies=(int)(Math.random()*5);
+                positionenemies = randomGenerator.nextInt(5);
             }
         }
-        while(enemylife==0 && mylife>0);
+        while(enemylife>0 && mylife>0);
     }
-}
-
 }
