@@ -7,6 +7,7 @@ public class Robot {
     double oilTemperature = 50;
     int position = 0;
     int shootingForce = 0;
+    int forceg;
     boolean isHolding = false;
 
     void chooseTool(String chosenTool) {
@@ -49,11 +50,17 @@ public class Robot {
                 System.out.println("Your robot spits oil at " + oilTemperature + "° celsius");
                 break;
                 
+            case "fly":
+                System.out.println("Enter the acceleration of the jetpack");
+                forceg=scan.nextInt();
+                break;
+                
             default:
                 System.out.println("That tool doesn't exist!");
                 break;
         }
     }
+    
     int search (int n, int random){
 
         if(n>random){
@@ -64,4 +71,18 @@ public class Robot {
         }
         return n;
     }
+    
+    int aim(int x, int position){
+        int mylife=30;
+        if(x>position){
+            System.out.println("you passed, try lower");
+            
+        }
+        if(x<position){
+            System.out.println("almost close, try higher");
+            
+        }
+        return x;
+    }
+
 }
