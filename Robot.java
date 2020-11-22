@@ -61,7 +61,7 @@ public class Robot {
         }
     }
     
-    int search (int n, int random){
+    int search (int n, int random) {
 
         if(n>random){
             System.out.println("you passed, try behind");
@@ -72,8 +72,7 @@ public class Robot {
         return n;
     }
     
-    int aim(int x, int position){
-        int mylife=30;
+    int aim(int x, int position) {
         if(x>position){
             System.out.println("you passed, try lower");
             
@@ -84,5 +83,4 @@ public class Robot {
         }
         return x;
     }
-
 }
