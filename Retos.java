@@ -227,4 +227,84 @@ public class Retos {
         }
         System.out.println("You currently have " + points + " points");
     }
+     void jetpackChallenge(Robot player){
+        player.extension = 0;
+        int forceg;
+        int distance=45;
+        System.out.println("Enter your aceleration of the jetpack");
+        forceg=scan.nextInt();
+        if(forceg > distance){
+            System.out.println("You must try slowly");
+        }
+        else if(forceg < distance){
+            System.out.println("You must try harder");
+        }
+        else{
+            System.out.println("You nailed it");
+        }
+    }
+    
+    void skysearchingChallenge(Robot player){
+        player.extension=0;
+        int numOfBalls = 0;
+        int forceg;
+        int distance=45;
+        Boolean grab;
+        System.out.println("Search the 5 Balls move it and the system will tell you if you need to go higher or lower ");
+        System.out.println("Enter your aceleration of the jetpack");
+        forceg=scan.nextInt();
+        do{
+            player.search(forceg, distance);
+            while(forceg!=distance);
+            System.out.println("You find the ball, to grab it enter 'true' ");
+            grab = scan.nextBoolean();
+            if (grab) {
+                numOfBalls+=1;
+                System.out.println("Now return to your base");
+                int r=(int)(Math.random()*12);
+                System.out.println("move it and the system will tell you if you need to go further or closer");
+                forceg=scan.nextInt();
+                player.search(forceg, r);
+            }
+            else {
+                System.out.println("You must grab the ball");
+            }
+            System.out.println("You find the base, now drop the ball ");
+            if(!grab){
+                System.out.println("You must leave the ball");
+            }
+            else{
+                System.out.println("Now search for more balls");
+            }
+        }
+        while(numOfBalls!=5);
+        System.out.println("You did it");
+    }
+    
+    void killenemiesChallenge(Robot player){
+        int enemylife=30;
+        int positionenemies;
+        int mylife=30;
+        int aim;
+        System.out.println("Shoot to your enemies, otherwise they will shoot you");
+        System.out.println("Search your enemies");
+        aim=scan.nextInt();
+        positionenemies=(int)(Math.random()*5);
+        do{
+            player.aim(aim, positionenemies);
+            if(aim!=positionenemies){
+                mylife-=10;
+                System.out.println("You mist");
+            }
+            if(aim==positionenemies){
+                mylife+=5;
+                enemylife-=10;
+                System.out.println("You shot him");
+                positionenemies=(int)(Math.random()*5);
+            }
+        }
+        while(enemylife==0 && mylife>0);
+    }
+}
+
 }
