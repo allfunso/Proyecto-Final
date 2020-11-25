@@ -7,6 +7,18 @@ public class App {
         Robot robot = new Robot();
         Retos retos = new Retos();
 
+        //Bienvenida e instrucciones
+        System.out.println("Welcome to the robotics cometition, player");
+        System.out.println("You'll have to face a series of challenges using 8 different tools:");
+        System.out.println("    SHOOT: Asks for a force (int) and shoots a ball");
+        System.out.println("    MOVE: Asks for a distance (int) and your robot moves");
+        System.out.println("    EXTEND: Asks for a decimal number to extend or contract its arm");
+        System.out.println("    SEARCH: Asks for an integer and looks for a ball at that point");
+        System.out.println("    GRAB: Grabs something. In case the robot is already holding sth, it will be released");
+        System.out.println("    SPIT: Releases oil at a certain temperature (double)");
+        System.out.println("    FLY: Asks for and the jetpack shoots you to the air!");
+        System.out.println("    LASER: Asks for an angle (int) and aims\n----------------");
+        
         //Se le pregunta al usuario cuantos retos desea hacer (número entero)
         System.out.println("How many challenges would you like to perform?");
         int numOfChallenges = mainScan.nextInt();
