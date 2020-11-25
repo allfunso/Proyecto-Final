@@ -11,32 +11,28 @@ public class Retos {
     Scanner scan = new Scanner(System.in);
     Random randomGenerator = new Random();
     int points = 0;
-    String tool;
 
     void shootingChallenge(Robot player) {
-        int force;
         System.out.println("There's a target that you have to shoot");
         System.out.println("Choose between one of your tools to complete the challenge:");
 
         for(int numOfBalls=4; numOfBalls>0; numOfBalls--) {
-            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT, FLY");
-            tool = scan.next();
-            player.chooseTool(tool);
 
-            if (tool.equalsIgnoreCase("shoot")) {
-                force = player.shootingForce;
-                if (force>=60) {
+            player.chooseTool();
+
+            if (player.tool.equals("shoot")) {
+                if (player.shootingForce > 60) {
                     System.out.println("Too high! you failed");
                 }
-                else if (force>50) {
+                else if (player.shootingForce > 50) {
                     System.out.println("You hit it! just above the center");
                     points += 5;
                 }
-                else if (force==50) {
+                else if (player.shootingForce == 50) {
                     System.out.println("You nailed it!");
                     points += 10;
                 }
-                else if (force>=40) {
+                else if (player.shootingForce >= 40) {
                     System.out.println("You hit it! just below the center");
                     points += 5;
                 }
@@ -61,19 +57,18 @@ public class Retos {
         System.out.println("There is a robot a few meters away");
         System.out.println("Choose between one of your tools to block it");
 
-        for (int i=0; i<=3; i++) {
-            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT, FLY");
-            tool = scan.next();
-            player.chooseTool(tool);
+        for (int i=0; i<=4; i++) {
+            
+            player.chooseTool();
 
-            if (tool.equalsIgnoreCase("move")) {
+            if (player.tool.equals("move")) {
                 if (distance > player.position) {
                     System.out.println("You are still too far away. Move forward");
                 } else if (distance < player.position) {
                     System.out.println("You went too far. Type a negative integer to move backwards");
                 } else {
                     System.out.println("You have blocked the robot succesfully");
-                    points += (10-2*i);
+                    points += (18-2*i);
                     break;
                 }
             } else {
@@ -92,67 +87,77 @@ public class Retos {
         System.out.println("Choose a tool to do so");
 
         do {
-        System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT, FLY");
-        tool = scan.next();
-        player.chooseTool(tool);
-        if (!tool.equalsIgnoreCase("extend")) System.out.println("That's not the right tool!");
-        } while (!tool.equalsIgnoreCase("extend"));
+        player.chooseTool();
+        if (!player.tool.equals("extend")) System.out.println("That's not the right tool!");
+        } while (!player.tool.equals("extend"));
 
         if (player.extension>=1 && player.extension<=2) {
             System.out.println("You did it!");
-            points += 5;
+            points += 10;
         } else {
             System.out.println("Wrong! The pole was 1.5 meters away");
         }
 
         System.out.println("Now enter a negative number to pull it back");
-        player.chooseTool(tool);
+        do {
+            player.chooseTool();
+            if (!player.tool.equals("extend")) System.out.println("That's not the right tool!");
+        } while (!player.tool.equals("extend"));
+
         if (player.extension > 0.5) {
             System.out.println("You had to pull harder");
         } else if (player.extension < -0.5) {
             System.out.println("You pulled too hard! Now it's broken");
         } else {
             System.out.println("Well done");
-            points += 5;
+            points += 10;
         }
         System.out.println("Current score: " + points + " points");
     }
     
     void searchingChallenge(Robot player) {
-        int num;
         int numOfBalls = 0;
-        Boolean grab;
+        int ballPosition;
         System.out.println("Search the 5 Balls move it and the system will tell you if you need to go further or closer ");
 
-        int random = randomGenerator.nextInt(10);
-
-        do{
+        do {
+            player.searchPosition = 0;
+            ballPosition = randomGenerator.nextInt(10);
             do {
-                num = scan.nextInt();
-                player.search(num, random);
-            } while(num!=random);
-            System.out.println("You find the ball, to grab it enter 'true' ");
-            grab = scan.nextBoolean();
-            if (grab) {
-                numOfBalls+=1;
-                System.out.println("Now return to your base");
+                player.chooseTool();
+                player.search(player.searchPosition, ballPosition);
+            } while (player.searchPosition != ballPosition);
+            System.out.println("You find the ball! Grab it using one of your tools");
+
+            player.isHolding = false;
+            player.chooseTool();
+            if (player.isHolding) {
+                numOfBalls++;
+                System.out.println("Now find your base using SEARCH");
                 int r = randomGenerator.nextInt(12);
-                System.out.println("move it and the system will tell you if you need to go further or closer");
-                num=scan.nextInt();
-                player.search(num, r);
-            }
-            else {
-                System.out.println("You must grab the ball");
-            }
-            System.out.println("You find the base, now drop the ball ");
-            if(!grab){
-                System.out.println("You must leave the ball");
-            }
-            else{
-                System.out.println("Now search for more balls");
+                System.out.println("The system will tell you if you need to go further or closer");
+                do {
+                    player.chooseTool();
+                    player.search(player.searchPosition, r);
+                } while (player.searchPosition != r);
+
+                System.out.println("You found your base!");
+                System.out.println("You are in your base. Now drop the ball");
+                player.isHolding = true;
+                player.chooseTool();
+                if(player.isHolding){
+                    System.out.println("You must have left the ball");
+                    System.out.println("Now look for another ball");
+                }
+                else {
+                    System.out.println("Now search for more balls");
+                }
+            } else {
+                System.out.println("You must have grabbed the ball using the GRAB tool");
+                System.out.println("You'll have to look for another ball");
             }
         }
-        while(numOfBalls!=5);
+        while(numOfBalls < 3);
         System.out.println("You did it");
     }
     
@@ -163,10 +168,9 @@ public class Retos {
 
         player.isHolding = false;
         while (!player.isHolding) {
-            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT, FLY");
-            tool = scan.next();
-            player.chooseTool(tool);
-            if (!tool.equalsIgnoreCase("grab")) {
+            
+            player.chooseTool();
+            if (!player.tool.equals("grab")) {
                 System.out.println("You must pick it up first");
                 pointsAvailable--;
             }
@@ -176,10 +180,8 @@ public class Retos {
         player.position = 0;
         int destination = randomGenerator.nextInt(15) + 5;
         while (player.position != destination) {
-            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB");
-            tool = scan.next();
-            player.chooseTool(tool);
-            if (!tool.equalsIgnoreCase("move")) System.out.println("That's not the right tool!");
+            player.chooseTool();
+            if (!player.tool.equals("move")) System.out.println("That's not the right tool!");
             System.out.println("The destination is " + (destination - player.position) + " meters away");
             pointsAvailable--;
         }
@@ -187,10 +189,8 @@ public class Retos {
         
         player.isHolding = true;
         while (player.isHolding) {
-            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB");
-            tool = scan.next();
-            player.chooseTool(tool);
-            if (!tool.equalsIgnoreCase("grab")) {
+            player.chooseTool();
+            if (!player.tool.equals("grab")) {
                 System.out.println("That's not the right tool!");
                 pointsAvailable--;
             }
@@ -207,16 +207,14 @@ public class Retos {
         System.out.println("You'll have to face a robot in a dirty battle");
         System.out.println("There are no rules. What are you gonna do?");
         while (player.extension<2 || player.oilTemperature<90) {
-            System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT");
-            tool = scan.next();
-            player.chooseTool(tool);
-            if (tool.equalsIgnoreCase("spit")) {
+            player.chooseTool();
+            if (player.tool.equals("spit")) {
                 if (player.extension < 2) {
                     System.out.println("The oil is not reaching the robot. Try to extend your arm higher");
                 } else if (player.oilTemperature < 90) {
                     System.out.println("HINT: The oil in your robot is too cold to make any damage");
                 }
-            } else if (!tool.equalsIgnoreCase("extend")) {
+            } else if (!player.tool.equals("extend")) {
                 System.out.println("That tool won't work. Try something else");
             }
             pointsAvailable--;
@@ -230,27 +228,29 @@ public class Retos {
     }
     
     void jetpackChallenge(Robot player){
-        player.extension = 0;
-        int forceg;
-        int distance=45;
-        System.out.println("Enter your aceleration of the jetpack");
-        forceg=scan.nextInt();
-        if(forceg > distance){
-            System.out.println("You must try slowly");
-        }
-        else if(forceg < distance){
-            System.out.println("You must try harder");
-        }
-        else{
-            System.out.println("You nailed it");
+        player.forceg = 0;
+        int forceRequired = 45;
+        System.out.println("There is a platform on a high place that you have to reach");
+        System.out.println("Use one of your tools to get on it");
+        while (player.forceg != forceRequired) {
+            player.chooseTool();
+            if (player.forceg > forceRequired) {
+                System.out.println("You must try slower");
+            }
+            else if (player.forceg < forceRequired) {
+                System.out.println("You must try harder. Use your jetpack");
+            }
+            else {
+                System.out.println("You nailed it!");
+            }
         }
     }
     
     void skysearchingChallenge(Robot player){
-        player.extension=0;
+        player.extension = 0;
         int numOfBalls = 0;
         int forceg;
-        int distance=45;
+        int distance = 45;
         Boolean grab;
         System.out.println("Search the 5 Balls move it and the system will tell you if you need to go higher or lower ");
         System.out.println("Enter your aceleration of the jetpack");
@@ -260,7 +260,7 @@ public class Retos {
                 forceg=scan.nextInt();
                 player.search(forceg, distance);
             } while(forceg!=distance);
-            System.out.println("You find the ball, to grab it enter 'true' ");
+            System.out.println("You find the ball. Grab it using one of your tools");
             grab = scan.nextBoolean();
             if (grab) {
                 numOfBalls+=1;
