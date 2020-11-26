@@ -1,14 +1,7 @@
-/**
- * Esta versión de la clase Retos no está terminada
- * Se planea agregar otros 4 retos
- * El reto de buscar pelotas tiene algunos errores en esta versión
- */
-
 import java.util.Random;
-import java.util.Scanner;
 
 public class Retos {
-    Scanner scan = new Scanner(System.in);
+
     Random randomGenerator = new Random();
     int points = 0;
 
@@ -116,9 +109,10 @@ public class Retos {
     }
     
     void searchingChallenge(Robot player) {
+        int pointsAvailable = 25;
         int numOfBalls = 0;
         int ballPosition;
-        System.out.println("Search the 5 Balls move it and the system will tell you if you need to go further or closer ");
+        System.out.println("Search the 3 Balls. The system will tell you if you need to go further or closer");
 
         do {
             player.searchPosition = 0;
@@ -126,6 +120,7 @@ public class Retos {
             do {
                 player.chooseTool();
                 player.search(player.searchPosition, ballPosition);
+                pointsAvailable--;
             } while (player.searchPosition != ballPosition);
             System.out.println("You find the ball! Grab it using one of your tools");
 
@@ -139,6 +134,7 @@ public class Retos {
                 do {
                     player.chooseTool();
                     player.search(player.searchPosition, r);
+                    pointsAvailable--;
                 } while (player.searchPosition != r);
 
                 System.out.println("You found your base!");
@@ -146,18 +142,23 @@ public class Retos {
                 player.isHolding = true;
                 player.chooseTool();
                 if(player.isHolding){
-                    System.out.println("You must have left the ball");
+                    System.out.println("You had to release the ball");
                     System.out.println("Now look for another ball");
+                    pointsAvailable--;
                 }
                 else {
-                    System.out.println("Now search for more balls");
+                    System.out.println("Well done!");
                 }
             } else {
                 System.out.println("You must have grabbed the ball using the GRAB tool");
                 System.out.println("You'll have to look for another ball");
+                pointsAvailable--;
             }
         }
         while(numOfBalls < 3);
+        if (pointsAvailable > 0) {
+            points += pointsAvailable;
+        }
         System.out.println("You did it");
     }
     
@@ -217,7 +218,7 @@ public class Retos {
             } else if (!player.tool.equals("extend")) {
                 System.out.println("That tool won't work. Try something else");
             }
-            pointsAvailable--;
+            pointsAvailable -= 2;
         }
         System.out.println("The hot oil reaches the other robot and burns it");
         if (pointsAvailable > 0) {
@@ -249,32 +250,31 @@ public class Retos {
     void skysearchingChallenge(Robot player){
         player.extension = 0;
         int numOfBalls = 0;
-        int forceg;
         int distance = 45;
-        Boolean grab;
+
         System.out.println("Search the 5 Balls move it and the system will tell you if you need to go higher or lower ");
         System.out.println("Enter your aceleration of the jetpack");
 
         do{
             do {
-                forceg=scan.nextInt();
-                player.search(forceg, distance);
-            } while(forceg!=distance);
+                player.chooseTool();
+                player.search(player.forceg, distance);
+            } while(player.forceg!=distance);
             System.out.println("You find the ball. Grab it using one of your tools");
-            grab = scan.nextBoolean();
-            if (grab) {
+            player.chooseTool();
+            if (player.isHolding) {
                 numOfBalls+=1;
                 System.out.println("Now return to your base");
                 int r = randomGenerator.nextInt(12);
                 System.out.println("move it and the system will tell you if you need to go further or closer");
-                forceg=scan.nextInt();
-                player.search(forceg, r);
+                player.chooseTool();
+                player.search(player.forceg, r);
             }
             else {
                 System.out.println("You must grab the ball");
             }
             System.out.println("You find the base, now drop the ball ");
-            if(!grab){
+            if(!player.isHolding){
                 System.out.println("You must leave the ball");
             }
             else{
@@ -286,27 +286,30 @@ public class Retos {
     }
     
     void killenemiesChallenge(Robot player){
-        int enemylife = 30;
-        int positionenemies;
-        int mylife = 30;
-        int aim;
-        System.out.println("Shoot to your enemies, otherwise they will shoot you");
+        int enemyLife = 30;
+        int enemyPosition;
+        int myLife = 30;
+
+        System.out.println("Shoot your enemies, otherwise they will shoot you");
         System.out.println("Search your enemies");
-        positionenemies = randomGenerator.nextInt(5);
+        enemyPosition = randomGenerator.nextInt(6);
         do{
-            aim=scan.nextInt();
-            player.aim(aim, positionenemies);
-            if(aim!=positionenemies){
-                mylife-=10;
-                System.out.println("You missed");
-            }
-            if(aim==positionenemies){
-                mylife += 5;
-                enemylife -= 10;
-                System.out.println("You shot him");
-                positionenemies = randomGenerator.nextInt(5);
+            player.chooseTool();
+            
+            if (player.tool.equals("laser")) {
+                int transformedAngle = Math.round(player.laserAngle / 30f);
+                player.aim(transformedAngle, enemyPosition);
+                if (player.laserAngle != enemyPosition){
+                    myLife -= 5;
+                    System.out.println("You missed");
+                }
+                if (transformedAngle == enemyPosition){
+                    enemyLife -= 10;
+                    System.out.println("You shot him");
+                    enemyPosition = randomGenerator.nextInt(6);
+                }
             }
         }
-        while(enemylife>0 && mylife>0);
+        while(enemyLife>0 && myLife>0);
     }
 }
