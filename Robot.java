@@ -82,7 +82,7 @@ public class Robot {
             case "laser":
                 System.out.println("Enter an angle to aim (0-180): ");
                 laserAngle = scan.nextFloat();
-                System.out.println("The robot aims its laser at " + laserAngle +"°");
+                System.out.println("The robot aims its laser at " + laserAngle + "°");
                 break;
 
             default:
@@ -91,24 +91,22 @@ public class Robot {
         }
     }
     
-    int search (int n, int random) {
+    void search (int n, int random) {
 
-        if(n>random){
+        if(n > random){
             System.out.println("you passed, try behind");
         }
-        if(n<random){
+        if(n < random){
             System.out.println("you need to advance more");
         }
-        return n;
     }
     
-    int aim(int x, int position) {
+    void aim(int x, int position) {
         if(x > position){
             System.out.println("Almost! Try a lower angle");
         }
         if(x < position){
             System.out.println("Close! Try higher");
         }
-        return x;
     }
 }
