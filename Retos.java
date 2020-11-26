@@ -252,18 +252,18 @@ public class Retos {
         int numOfBalls = 0;
         int distance = 45;
 
-        System.out.println("Search the 5 Balls move it and the system will tell you if you need to go higher or lower ");
+        System.out.println("Search the 3 Balls move it and the system will tell you if you need to go higher or lower ");
         System.out.println("Enter your aceleration of the jetpack");
 
         do{
             do {
                 player.chooseTool();
                 player.search(player.forceg, distance);
-            } while(player.forceg!=distance);
+            } while(player.forceg != distance);
             System.out.println("You find the ball. Grab it using one of your tools");
             player.chooseTool();
             if (player.isHolding) {
-                numOfBalls+=1;
+                numOfBalls += 1;
                 System.out.println("Now return to your base");
                 int r = randomGenerator.nextInt(12);
                 System.out.println("move it and the system will tell you if you need to go further or closer");
@@ -281,7 +281,7 @@ public class Retos {
                 System.out.println("Now search for more balls");
             }
         }
-        while(numOfBalls!=5);
+        while(numOfBalls < 3);
         System.out.println("You did it");
     }
     
