@@ -12,6 +12,7 @@ public class Robot {
     int shootingForce = 0;
     int forceg;
     boolean isHolding = false;
+    float laserAngle = 0;
 
     void chooseTool() {
         System.out.println("SHOOT, MOVE, EXTEND, SEARCH, GRAB, SPIT, FLY, LASER");
@@ -26,7 +27,11 @@ public class Robot {
             case "move":
                 System.out.print("How far would you like to move? (int): ");
                 position += scan.nextInt();
-                System.out.println("Your robot moves...");
+                if (position == 0) {
+                    System.out.println("Your robot doesn't move. Enter a non-zero integer");
+                } else {
+                    System.out.println("Your robot moves to position " + position + "...");
+                }
                 break;
             
             case "extend":
@@ -73,7 +78,13 @@ public class Robot {
                     System.out.println("Please enter a positive integer in order to activate the jetpack");
                 }
                 break;
-                
+
+            case "laser":
+                System.out.println("Enter an angle to aim (0-180): ");
+                laserAngle = scan.nextFloat();
+                System.out.println("The robot aims its laser at " + laserAngle +"°");
+                break;
+
             default:
                 System.out.println("That tool doesn't exist!");
                 break;
@@ -92,11 +103,11 @@ public class Robot {
     }
     
     int aim(int x, int position) {
-        if(x>position){
-            System.out.println("you passed, try lower");
+        if(x > position){
+            System.out.println("Almost! Try a lower angle");
         }
-        if(x<position){
-            System.out.println("almost close, try higher");
+        if(x < position){
+            System.out.println("Close! Try higher");
         }
         return x;
     }
