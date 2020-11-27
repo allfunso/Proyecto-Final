@@ -231,6 +231,8 @@ public class Retos {
     void jetpackChallenge(Robot player){
         player.forceg = 0;
         int forceRequired = 45;
+        int pointsAvailable = 20;
+        
         System.out.println("There is a platform on a high place that you have to reach");
         System.out.println("Use one of your tools to get on it");
         while (player.forceg != forceRequired) {
@@ -244,7 +246,12 @@ public class Retos {
             else {
                 System.out.println("You nailed it!");
             }
+            pointsAvailable -= 2;
         }
+        if (pointsAvailable > 0) {
+            points += pointsAvailable;
+        }
+        System.out.println("You currently have " + points + " points");
     }
     
     void skysearchingChallenge(Robot player){
@@ -255,7 +262,7 @@ public class Retos {
         System.out.println("Search the 3 Balls move it and the system will tell you if you need to go higher or lower ");
         System.out.println("Enter your aceleration of the jetpack");
 
-        do{
+        do {
             do {
                 player.chooseTool();
                 player.search(player.forceg, distance);
@@ -286,20 +293,20 @@ public class Retos {
     }
     
     void killenemiesChallenge(Robot player){
-        int enemyLife = 30;
+        int enemyLife = 40;
         int enemyPosition;
-        int myLife = 30;
+        int myLife = 40;
 
         System.out.println("Shoot your enemies, otherwise they will shoot you");
         System.out.println("Search your enemies");
         enemyPosition = randomGenerator.nextInt(6);
         do{
             player.chooseTool();
-            
+
             if (player.tool.equals("laser")) {
                 int transformedAngle = Math.round(player.laserAngle / 30f);
                 player.aim(transformedAngle, enemyPosition);
-                if (player.laserAngle != enemyPosition){
+                if (transformedAngle != enemyPosition){
                     myLife -= 5;
                     System.out.println("You missed");
                 }
