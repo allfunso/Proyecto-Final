@@ -92,7 +92,6 @@ public class Robot {
     }
     
     void search (int n, int random) {
-
         if(n > random){
             System.out.println("you passed, try behind");
         }

@@ -18,7 +18,7 @@ public class App {
         System.out.println("    GRAB: Grabs something. In case the robot is already holding sth, it will be released");
         System.out.println("    SPIT: Releases oil at a certain temperature (double)");
         System.out.println("    FLY: Asks for an integer and the jetpack shoots you to the air!");
-        System.out.println("    LASER: Asks for an angle (int) and aims\n----------------");
+        System.out.println("    LASER: Asks for an angle (int) and aims\n--------------------------------");
         
         //Se le pregunta al usuario cuantos retos desea hacer (número entero)
         System.out.println("How many challenges would you like to perform?");

@@ -232,7 +232,7 @@ public class Retos {
         player.forceg = 0;
         int forceRequired = 45;
         int pointsAvailable = 20;
-        
+
         System.out.println("There is a platform on a high place that you have to reach");
         System.out.println("Use one of your tools to get on it");
         while (player.forceg != forceRequired) {
@@ -293,13 +293,15 @@ public class Retos {
     }
     
     void killenemiesChallenge(Robot player){
-        int enemyLife = 40;
+        int numberOfEnemies = 40;
         int enemyPosition;
         int myLife = 40;
+        int pointsAvailable = 20;
 
         System.out.println("Shoot your enemies, otherwise they will shoot you");
         System.out.println("Search your enemies");
         enemyPosition = randomGenerator.nextInt(6);
+
         do{
             player.chooseTool();
 
@@ -309,14 +311,22 @@ public class Retos {
                 if (transformedAngle != enemyPosition){
                     myLife -= 5;
                     System.out.println("You missed");
-                }
-                if (transformedAngle == enemyPosition){
-                    enemyLife -= 10;
+                    pointsAvailable--;
+                } else {
+                    numberOfEnemies -= 10;
                     System.out.println("You shot him");
                     enemyPosition = randomGenerator.nextInt(6);
                 }
+            } else {
+                System.out.println("You should use another tool. Enemies are extremely photosensitive");
+                pointsAvailable -= 2;
             }
         }
-        while(enemyLife>0 && myLife>0);
+        while(numberOfEnemies>0 && myLife>0);
+
+        if (pointsAvailable > 0) {
+            points += pointsAvailable;
+        }
+        System.out.println("You've scored " + points + "points so far");
     }
 }
