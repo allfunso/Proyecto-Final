@@ -1,59 +1,72 @@
 import java.util.Random;
 
 public class Retos {
-
+    //Se crea un generador de números aleatorios y una variable que almacena los puntos
     Random randomGenerator = new Random();
     int points = 0;
 
+    /** Cada uno de los retos que puede elegir el jugador está en un método
+    * Los métodos son de tipo void porque no deben retornar ningún valor, solo realizar las condiciones y salidas
+    * Las herramientas se llaman de la clase robot, por lo que se debe pasar un argumento de tipo robot en cada método
+    */
     void shootingChallenge(Robot player) {
+        //Instrucciones
         System.out.println("There's a target that you have to shoot");
         System.out.println("Choose between one of your tools to complete the challenge:");
 
+        //Lo siguiente se ejecuta hasta que el robot se quede sin pelotas
         for(int numOfBalls=4; numOfBalls>0; numOfBalls--) {
 
-            player.chooseTool();
+            player.chooseTool(); //Permitir la elección de herramienta
 
+            //Si la herramienta es shoot, la fuerza de lanzamiento se clasificará con las siguientes condiciones
             if (player.tool.equals("shoot")) {
                 if (player.shootingForce > 60) {
                     System.out.println("Too high! you failed");
                 }
                 else if (player.shootingForce > 50) {
                     System.out.println("You hit it! just above the center");
-                    points += 5;
+                    points += 5; //Se agregan puntos
                 }
                 else if (player.shootingForce == 50) {
                     System.out.println("You nailed it!");
-                    points += 10;
+                    points += 10; //Se agregan puntos
                 }
                 else if (player.shootingForce >= 40) {
                     System.out.println("You hit it! just below the center");
-                    points += 5;
+                    points += 5; //Se agregan puntos
                 }
                 else {
                    System.out.println("Very low! you failed");
                 }
             } else {
+                //Se advierte que la herramienta no es la adecuada si no usó SHOOT
                 System.out.println("That's not the tool you should've used");
             }
             if (numOfBalls > 1) {
+                //Se escribe que lo intente otra vez en caso de que aun pueda
                 System.out.println("Try again");
             }
         }
         System.out.println("You ran out of balls");
-        System.out.println("You've scored " + points + " points so far");
+        System.out.println("You've scored " + points + " points so far"); //Notifica los puntos que ha obtenido hasta ahora
     }
 
     void defendingChallenge(Robot player) {
+        //Se coloca el robot en el inicio
         player.position = 0;
 
+        //Se coloca el robot enemigo en una posición aleatoria y adelante
         int distance = randomGenerator.nextInt(10) + 5;
         System.out.println("There is a robot a few meters away");
         System.out.println("Choose between one of your tools to block it");
 
+        //Se le dan oportunidades para que intente bloquear el robot
         for (int i=0; i<=4; i++) {
             
-            player.chooseTool();
+            player.chooseTool(); //Usuario elige herramienta
 
+            //En caso de que haya elegido move, se verifica que tan lejos está del enemigo o si lo ha alcanzado
             if (player.tool.equals("move")) {
                 if (distance > player.position) {
                     System.out.println("You are still too far away. Move forward");
@@ -61,24 +74,30 @@ public class Retos {
                     System.out.println("You went too far. Type a negative integer to move backwards");
                 } else {
                     System.out.println("You have blocked the robot succesfully");
-                    points += (18-2*i);
+                    points += (18-2*i); //Se suman los puntos, pero penalizando por el número de veces que lo haya intentado
                     break;
                 }
             } else {
+                //Se advierte que no es la heramienta adecuada
                 System.out.println("That's not the tool you should've used");
             }
+            //Se advierte que ya no tiene intentos disponibles
             if (i==3) System.out.println("You ran out of attempts");
         }
+        //Se muestra el puntaje acumulado hasta ahora
         System.out.println("You have scored " + points + " points so far");
     }
 
     void clawChallenge(Robot player) {
+        //Se comienza con el brazo en posición 0
         player.extension = 0;
 
+        //instrucciones
         System.out.println("There is a metal pole hanging over the robot");
         System.out.println("The robot must extend its arm to grab it");
         System.out.println("Choose a tool to do so");
 
+        //Se le permite realizar varios intentos para elegir su herramienta hasta que sea la adecuada
         do {
         player.chooseTool();
         if (!player.tool.equals("extend")) System.out.println("That's not the right tool!");
@@ -86,7 +105,7 @@ public class Retos {
 
         if (player.extension>=1 && player.extension<=2) {
             System.out.println("You did it!");
-            points += 10;
+            points += 10; //El usuario ingreso una respuesta correcta y se agregan 10 puntos
         } else {
             System.out.println("Wrong! The pole was 1.5 meters away");
         }
@@ -103,27 +122,33 @@ public class Retos {
             System.out.println("You pulled too hard! Now it's broken");
         } else {
             System.out.println("Well done");
-            points += 10;
+            points += 10; //El usuario ingresó una respuesta correcta y se agregan puntos
         }
+        //Se imprime el puntaje actual
         System.out.println("Current score: " + points + " points");
     }
     
     void searchingChallenge(Robot player) {
+        //Se definen puntos disponibles, numero de bolas y la posición de la bola
         int pointsAvailable = 25;
         int numOfBalls = 0;
         int ballPosition;
+        //Instrucción
         System.out.println("Search the 3 Balls. The system will tell you if you need to go further or closer");
 
         do {
+            //Se coloca el escáner del jugador en posición 0
             player.searchPosition = 0;
+            //Se coloca la bola en una posición aleatoria de 0 a 10
             ballPosition = randomGenerator.nextInt(10);
             do {
                 player.chooseTool();
                 player.search(player.searchPosition, ballPosition);
-                pointsAvailable--;
+                pointsAvailable--; //Se penaliza por cada respuesta incorrecta
             } while (player.searchPosition != ballPosition);
             System.out.println("You find the ball! Grab it using one of your tools");
 
+            //El jugador comienza sin agarrar nada
             player.isHolding = false;
             player.chooseTool();
             if (player.isHolding) {
