@@ -303,6 +303,7 @@ public class Retos {
         System.out.println("You currently have " + points + " points");
     }
     
+    //Este reto no se utiliza porque ya hay 8, pero decidimos incluirlo como easter egg ;)
     void skysearchingChallenge(Robot player){
         player.extension = 0;
         int numOfBalls = 0;
