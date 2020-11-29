@@ -304,7 +304,7 @@ public class Retos {
     }
     
     //Este reto no se utiliza porque ya hay 8, pero decidimos incluirlo como easter egg ;)
-    void skysearchingChallenge(Robot player){
+    void skysearchingChallenge(Robot player) {
         player.extension = 0;
         int numOfBalls = 0;
         int distance = 45;
@@ -382,6 +382,6 @@ public class Retos {
             points += pointsAvailable;
         }
         //Se imprime el marcador actual
-        System.out.println("You've scored " + points + "points so far");
+        System.out.println("You've scored " + points + " points so far");
     }
 }
