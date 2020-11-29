@@ -151,25 +151,28 @@ public class Retos {
             //El jugador comienza sin agarrar nada
             player.isHolding = false;
             player.chooseTool();
+            //Si logra tomar la pelota, se ejecuta el siguiente código
             if (player.isHolding) {
-                numOfBalls++;
+                numOfBalls++; //Se cuenta la pelota que ha tomado
                 System.out.println("Now find your base using SEARCH");
-                int r = randomGenerator.nextInt(12);
+                int r = randomGenerator.nextInt(12); //La posición de la base será un número aleatorio de 0 a 12
                 System.out.println("The system will tell you if you need to go further or closer");
+                //Se le dan varias oportunidades para buscar su base
                 do {
                     player.chooseTool();
                     player.search(player.searchPosition, r);
-                    pointsAvailable--;
+                    pointsAvailable--; //Se penaliza por cada intento
                 } while (player.searchPosition != r);
-
+                //Una vez la haya encontrado, debe dejar la pelota
                 System.out.println("You found your base!");
                 System.out.println("You are in your base. Now drop the ball");
                 player.isHolding = true;
+                
                 player.chooseTool();
                 if(player.isHolding){
                     System.out.println("You had to release the ball");
                     System.out.println("Now look for another ball");
-                    pointsAvailable--;
+                    pointsAvailable--; //Se penaliza por no dejar la pelota
                 }
                 else {
                     System.out.println("Well done!");
@@ -177,24 +180,27 @@ public class Retos {
             } else {
                 System.out.println("You must have grabbed the ball using the GRAB tool");
                 System.out.println("You'll have to look for another ball");
-                pointsAvailable--;
+                pointsAvailable--; //Se penaliza por no elegir la herramienta search
             }
         }
         while(numOfBalls < 3);
+        //Se agreagan los puntos disponibles si es que los hay
         if (pointsAvailable > 0) {
             points += pointsAvailable;
         }
+        //Se anuncia que ha ganado y los puntos que ha almacenado hasta el momento
         System.out.println("You did it");
+        System.out.println("You currently have " + points + " points");
     }
     
     void discsChallenge(Robot player) {
         int pointsAvailable = 18;
+        //Instrucciones
         System.out.println("There's a disc in front of you");
         System.out.println("You must take it to the enemy base using your tools");
-
+        //Lo siguiente se ejecutará mientras no se use la herramienta grab
         player.isHolding = false;
         while (!player.isHolding) {
-            
             player.chooseTool();
             if (!player.tool.equals("grab")) {
                 System.out.println("You must pick it up first");
@@ -202,14 +208,15 @@ public class Retos {
             }
         }
         System.out.println("Now go to the other side");
-
+        //El robot se coloca en la posición 0 y el destino entre 5 y 15
         player.position = 0;
         int destination = randomGenerator.nextInt(15) + 5;
+        //Mientras no estén en la misma posición, 
         while (player.position != destination) {
             player.chooseTool();
             if (!player.tool.equals("move")) System.out.println("That's not the right tool!");
             System.out.println("The destination is " + (destination - player.position) + " meters away");
-            pointsAvailable--;
+            pointsAvailable--; //Se penaliza por cada intento
         }
         System.out.println("You've reached it, now release it");
         
@@ -218,48 +225,61 @@ public class Retos {
             player.chooseTool();
             if (!player.tool.equals("grab")) {
                 System.out.println("That's not the right tool!");
-                pointsAvailable--;
+                pointsAvailable--; //Se penaliza por elegir la herramienta incorrecta
             }
         }
+        //Si hay puntos disponibles, se agregan
         if (pointsAvailable > 0) {
             points += pointsAvailable;
         }
+        //Se le recuerda cuantos puntos ha acumulado
         System.out.println("You have accumulated " + points + " points so far");
     }
 
     void battleChallenge(Robot player) {
+        //Comienza con el brazo en posición 0
         player.extension = 0;
         int pointsAvailable = 20;
+        //instrucciones
         System.out.println("You'll have to face a robot in a dirty battle");
         System.out.println("There are no rules. What are you gonna do?");
+        //Para salir del ciclo, se debe extender el brazo y escupir aceite caliente
         while (player.extension<2 || player.oilTemperature<90) {
-            player.chooseTool();
+            player.chooseTool(); //Se permite que elija la herramienta
             if (player.tool.equals("spit")) {
                 if (player.extension < 2) {
+                    //Si escupe pero el brazo sigue sin estar extendido, se le informa que debe usar EXTEND
                     System.out.println("The oil is not reaching the robot. Try to extend your arm higher");
                 } else if (player.oilTemperature < 90) {
+                    //Si ingresa una temperatura baja, se informa que debe ser mayor
                     System.out.println("HINT: The oil in your robot is too cold to make any damage");
                 }
             } else if (!player.tool.equals("extend")) {
                 System.out.println("That tool won't work. Try something else");
+                pointsAvailable -= 1; //Se penaliza por elegir herramientas incorrectas
             }
-            pointsAvailable -= 2;
+            pointsAvailable -= 1; //Se penaliza por cada intento
         }
         System.out.println("The hot oil reaches the other robot and burns it");
+        //Se agregan los puntos disponibles si es que hay
         if (pointsAvailable > 0) {
             points += pointsAvailable;
             System.out.println("You win!");
         }
+        //Se imprimen los puntos que ha acumulado hasta ahora
         System.out.println("You currently have " + points + " points");
     }
     
-    void jetpackChallenge(Robot player){
+    void jetpackChallenge(Robot player) {
+        //El jetpack comienza sin fuerza y se declara la fuerza que deberá tener
         player.forceg = 0;
         int forceRequired = 45;
         int pointsAvailable = 20;
 
+        //Instrucciones
         System.out.println("There is a platform on a high place that you have to reach");
         System.out.println("Use one of your tools to get on it");
+        //Se repite si la fuerza no es la requerida
         while (player.forceg != forceRequired) {
             player.chooseTool();
             if (player.forceg > forceRequired) {
@@ -269,13 +289,16 @@ public class Retos {
                 System.out.println("You must try harder. Use your jetpack");
             }
             else {
+                //La fuerza ha sido igual a la requerida
                 System.out.println("You nailed it!");
             }
-            pointsAvailable -= 2;
+            pointsAvailable -= 2; //Se penaliza por cada intento
         }
+        //Se agregan los puntos disponibles
         if (pointsAvailable > 0) {
             points += pointsAvailable;
         }
+        //Se imprime el marcador actualizado
         System.out.println("You currently have " + points + " points");
     }
     
@@ -317,20 +340,23 @@ public class Retos {
         System.out.println("You did it");
     }
     
-    void killenemiesChallenge(Robot player){
-        int numberOfEnemies = 40;
+    void killenemiesChallenge(Robot player) {
+        //Se declara vida del jugador y número de enemigos
+        int numberOfEnemies = 3;
         int enemyPosition;
         int myLife = 40;
         int pointsAvailable = 20;
-
-        System.out.println("Shoot your enemies, otherwise they will shoot you");
+        //Instrucciones
+        System.out.println("Shoot your enemies (3), otherwise they will shoot you");
         System.out.println("Search your enemies");
+        //Se coloca al enemigo en una posición aleatoria del 0 al 6
         enemyPosition = randomGenerator.nextInt(6);
 
-        do{
-            player.chooseTool();
+        do {
+            player.chooseTool(); //Se permite que elija herramienta
 
             if (player.tool.equals("laser")) {
+                //Se transforma el angulo (0 a 180) a un numero de 0 a 6
                 int transformedAngle = Math.round(player.laserAngle / 30f);
                 player.aim(transformedAngle, enemyPosition);
                 if (transformedAngle != enemyPosition){
@@ -338,20 +364,22 @@ public class Retos {
                     System.out.println("You missed");
                     pointsAvailable--;
                 } else {
-                    numberOfEnemies -= 10;
-                    System.out.println("You shot him");
+                    numberOfEnemies -= 1;
+                    System.out.println("You shot an enemy");
                     enemyPosition = randomGenerator.nextInt(6);
                 }
             } else {
+                //Se penaliza por usar una herramienta que no es el laser
                 System.out.println("You should use another tool. Enemies are extremely photosensitive");
                 pointsAvailable -= 2;
             }
         }
         while(numberOfEnemies>0 && myLife>0);
-
+        //Se agregan los puntos que sigan disponibles
         if (pointsAvailable > 0) {
             points += pointsAvailable;
         }
+        //Se imprime el marcador actual
         System.out.println("You've scored " + points + "points so far");
     }
 }
