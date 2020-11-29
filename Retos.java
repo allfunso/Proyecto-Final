@@ -141,6 +141,7 @@ public class Retos {
             player.searchPosition = 0;
             //Se coloca la bola en una posición aleatoria de 0 a 10
             ballPosition = randomGenerator.nextInt(10);
+            System.out.println("Look for a ball");
             do {
                 player.chooseTool();
                 player.search(player.searchPosition, ballPosition);
